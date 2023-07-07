@@ -12,6 +12,29 @@ import jakarta.persistence.Table;
 @Table(name = "Pedido")
 public class Pedido extends GenericEntity{
 	
+	public Date getData() {
+		return Data;
+	}
+
+	public void setData(Date data) {
+		Data = data;
+	}
+
+	public double getQuantidade() {
+		return Quantidade;
+	}
+
+	
+	public Produto getProduto() {
+		return Produto;
+	}
+
+	public void setProduto(Produto produto) {
+		Produto = produto;
+	}
+
+	
+	
 	private Date Data;
 	
 	@ManyToOne
@@ -22,26 +45,8 @@ public class Pedido extends GenericEntity{
 	
 	
 	
-	public Date GetData() {
-		
-		return this.Data;
-	}
 	
-	public void setDate(Date data)
-	{
-		this.Data = data;
-	}
-	
-	
-	public double GetQuantidade() {
-		
-		return this.Quantidade;
-	}
-	
-	public void setQuantidade(double quantidade)
-	{
-		this.Quantidade = quantidade;
-	}
+
 	
 	
 	

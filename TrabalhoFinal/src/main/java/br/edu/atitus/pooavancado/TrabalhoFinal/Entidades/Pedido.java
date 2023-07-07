@@ -17,34 +17,34 @@ public class Pedido extends GenericEntity{
 	
 	
 	
-	private Date GetData() {
+	public Date GetData() {
 		
 		return this.Data;
 	}
 	
-	private void setDate(Date data)
+	public void setDate(Date data)
 	{
 		this.Data = data;
 	}
 	
 	
-	private double GetQuantidade() {
+	public double GetQuantidade() {
 		
 		return this.Quantidade;
 	}
 	
-	private void setQuantidade(double quantidade)
+	public void setQuantidade(double quantidade)
 	{
 		this.Quantidade = quantidade;
 	}
 	
 	
-	private long GetProdutoId() {
+	public long GetProdutoId() {
 		
 		return this.ProdutoId;
 	}
 	
-	private void setProdutoId(long produtoId)
+	public void setProdutoId(long produtoId)
 	{
 		this.ProdutoId = produtoId;
 	}

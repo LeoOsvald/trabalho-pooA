@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpServletRequest;
 @Component
 public class JwtConfig {
 
-	private final String jwtSecret = "GREMIO@1903";
+	private final String jwtSecret = "=====================GREMIO=1903============================";
 	private final int jwtExpirationMs = 86400000;
 	
 	public String getJwtFromRequest(HttpServletRequest request) {

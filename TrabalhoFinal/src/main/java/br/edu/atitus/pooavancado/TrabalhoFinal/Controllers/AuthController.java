@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,24 +28,21 @@ public class AuthController {
 	
 	
 	private final IUsuarioService usuarioService;
-	private final AuthenticationManager authenticationManager;
+	private final PasswordEncoder passwordEncoder;
+	private final AuthenticationManager authManager;
 	private final JwtConfig jwtConfig;
-	
-
-	public AuthController(
-			IUsuarioService usuarioService
-			, AuthenticationManager authenticationManager
-			, JwtConfig jwtConfig) 
-	{
+	public AuthController(IUsuarioService usuarioService, PasswordEncoder passwordEncoder
+			, AuthenticationManager authManager, JwtConfig jwtConfig) {
 		super();
 		this.usuarioService = usuarioService;
-		this.authenticationManager = authenticationManager;
+		this.passwordEncoder = passwordEncoder;
+		this.authManager = authManager;
 		this.jwtConfig = jwtConfig;
 	}
 	@PostMapping("/signin")
 	public ResponseEntity<Object> login(@RequestBody LoginPayload login) {
 		try {
-			Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login.getNomeUsuario(), login.getSenha()));
+			Authentication auth = authManager.authenticate(new UsernamePasswordAuthenticationToken(login.getNomeUsuario(), login.getSenha()));
 			String jwt = jwtConfig.generateTokenFromUsername(login.getNomeUsuario());
 			return ResponseEntity.status(HttpStatus.OK).body(jwt);
 		} catch (Exception e) {
@@ -57,7 +55,7 @@ public class AuthController {
 			Usuario usuarioNovo = new Usuario();
 			usuarioNovo.setNome(signup.getNomeUsuario());
 			String senha = gerarSenhaAleatoria(10);
-			usuarioNovo.setSenha(senha);
+			usuarioNovo.setSenha(passwordEncoder.encode(senha));
 			usuarioService.save(usuarioNovo);
 			return ResponseEntity.status(HttpStatus.OK).body(senha);
 		} catch (Exception e) {
@@ -66,7 +64,7 @@ public class AuthController {
 		
 	}
 	private String gerarSenhaAleatoria(int tamanho) {
-		String CARACTERES_PERMITIDOS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+";
+		String CARACTERES_PERMITIDOS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!#$%^&*()-_=+";
         SecureRandom random = new SecureRandom();
         StringBuilder senha = new StringBuilder(tamanho);
 

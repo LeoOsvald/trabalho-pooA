@@ -1,8 +1,11 @@
 package br.edu.atitus.pooavancado.TrabalhoFinal.Entidades;
 
-import java.sql.Date;
+
+import java.util.Date;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -11,7 +14,9 @@ public class Pedido extends GenericEntity{
 	
 	private Date Data;
 	
-	private long ProdutoId;
+	@ManyToOne
+	@JoinColumn(name = "ProdutoId")
+	private Produto Produto;
 	
 	private double Quantidade;
 	
@@ -38,16 +43,6 @@ public class Pedido extends GenericEntity{
 		this.Quantidade = quantidade;
 	}
 	
-	
-	public long GetProdutoId() {
-		
-		return this.ProdutoId;
-	}
-	
-	public void setProdutoId(long produtoId)
-	{
-		this.ProdutoId = produtoId;
-	}
 	
 	
 	
